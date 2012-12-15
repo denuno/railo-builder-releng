@@ -4,4 +4,5 @@
   <mapping physical="@src.dir@/../tests" virtual="/tests"/>
   <mapping physical="@src.dir@/railo-builder-releng" virtual="/railo-builder-releng"/>
  -->
+<mapping physical="@src.dir@/resources/railo-builder" virtual="/railo-builder"/>
 </mappings>

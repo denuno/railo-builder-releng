@@ -3,44 +3,40 @@
 	<loadproperties srcfile="build.properties"/>
 	<import file="${cfdistro.build.file}"/>
 
-	<target name="build" depends="cfdistro.build">
-		<!-- add mappings -->
-		<!--
-		<mapping physical="${basedir}/../../docs" virtual="/docs"/>
-		<mapping physical="${basedir}/../tests" virtual="/tests"/>
-		-->
-		<!-- add custom tags example
-		<customtag physical="${src.dir}/cfdistro/ext/cfmltags/cfantrunner" virtual="/cfantrunner"/>
+	<target name="build" depends="cfdistro.build, build.builder.jar">
+		<addlibs from="${src.dir}/railo-builder/lib" />
+		<mapping physical="@src.dir@/railo-builder/resources/railo-builder" virtual="/railo-builder"/>
+		<server-run>
+			<get src="http://127.0.0.1:8088/railo-builder/build-railo.cfm?srcDir=${src.dir}/railo-src&amp;dstDir=${dist.dir}/railo&amp;resDir=${src.dir}/railo-builder/resources&amp;password=${cfadmin.password}&amp;build=all" verbose="on" dest="${temp.dir}/generate.html"/>
+		</server-run>
+    	<loadfile property="build-core.railo.compile_message" srcFile="${temp.dir}/generate.html" />
+    	<echo message="${build-core.railo.compile_message}" />
+		<!-- 
+		<copy todir="${war.target.dir}/WEB-INF/railo/lib/compile">
+			<fileset dir="${src.dir}/railo-src/railo-java/libs" includes="*.jar"/>
+		</copy>
+		http://127.0.0.1:8088/railo-builder/build-railo.cfm?srcDir=/workspace/railo-builder-releng/src/railo-src&dstDir=/tmp/railo&resDir=/workspace/railo-builder-releng/src/railo-builder/resources&password=testtest&build=all
 		 -->
-		<!-- use fileServlet to map external resources (css, images, etc.) -->
-		<!--
-		<fileservlet servletname="fileServlet" directory="${src.dir}/../pub" urlpattern="/pub/*"/>
-		<mapping physical="${basedir}/../pub" virtual="/pub"/>
-		-->
-		<!-- add urlrewrite filter and rewrite rules -->
-		<!-- getting "Failed to specify text in replace" means you need to escape & like so:  &amp;amp;-->
-		<!--
-		<antcontrib:runtarget target="urlrewritefilter.servlet.install" />
-		<urlrewrite name="root" note="MAP / TO DEFAULT VIEW" 
-			from="^/$" to="/index.cfm" type="forward"/>
-		<urlrewrite name="rootToPub" note="SERVE EVERYTHING FROM PUB"
-			from="/(.*)" to="/pub/$1" type="forward"/>
-		<urlrewriteout name="pubToRoot" from="^/pub/(.*)" to="/$1"/>
-		<urlrewriteout name="rootToContextPath" from="/(.*)" to="%{context-path}/$1" type="forward"/>
-		-->
-	</target>	
+	</target>
 
-	<!-- these are just here for the Eclipse Ant UI ordering -->
-	<target name="build.start.launch">
-		<antcontrib:runtarget target="cfdistro.build.start.launch" />
-	</target>	
+	<target name="build.builder.jar">
+		<delete dir="${temp.dir}/rbuild" />
+		<mkdir dir="${temp.dir}/rbuild/buildclasses" />
+		<unzip src="${war.target.dir}/WEB-INF/lib/railo.jar"
+		       dest="${temp.dir}/rbuild/">
+		    <patternset>
+		        <include name="**/core.rc"/>
+		    </patternset>
+		    <mapper type="flatten"/>
+		</unzip>
+		<path id="railolibs">
+			<fileset dir="${war.target.dir}/WEB-INF/lib" includes="*.jar"/>
+		</path>
+		<javac-ecj srcdir="${src.dir}/railo-builder/src" destdir="${temp.dir}/rbuild/buildclasses" 
+        	compliance="1.6" classpath="${toString:railolibs};${temp.dir}/rbuild/core.rc;${src.dir}/railo-builder/lib/ecj-3.7.2.jar"
+        	encoding="ISO-8859-1" fork="true" maxmemory="512m" />
+		<jar destfile="${war.target.dir}/WEB-INF/railo/lib/railo-build.jar" basedir="${temp.dir}/rbuild/buildclasses" />
+	</target>
 
-	<target name="build.start" depends="build">
-		<antcontrib:runtarget target="server.start" />
-	</target>	
-
-	<target name="build.stop">
-		<antcontrib:runtarget target="server.stop" />
-	</target>	
 	
 </project>
