@@ -2,10 +2,15 @@
 <src>
 	<project>
 
-		<src dest="@src.dir@/railo-builder" type="git"
+<!--
+ 		<src dest="@src.dir@/railo-builder" type="git"
+		uri="https://github.com/denuno/railo-builder.git"
+		user="" password="" />
+ -->
+ 		<src dest="@src.dir@/railo-builder" type="git"
 		uri="https://github.com/igal-getrailo/railo-builder.git"
 		user="" password="" />
-
+		
         <src dest="@src.dir@/railo-src" type="git"
         uri="http://github.com/getrailo/railo.git"
         user="" password="" branch="4.0" />

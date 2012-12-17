@@ -4,7 +4,7 @@
 	<import file="${cfdistro.build.file}"/>
 
 	<target name="build" depends="cfdistro.build, build.builder.jar">
-		<addlibs from="${src.dir}/railo-builder/lib" />
+		<addlibs from="${src.dir}/railo-builder/resources/railo-builder/WEB-INF/railo/lib/" />
 		<mapping physical="@src.dir@/railo-builder/resources/railo-builder" virtual="/railo-builder"/>
 		<server-run>
 			<get src="http://${server.host}:${server.port.http}/railo-builder/build-railo.cfm?srcDir=${src.dir}/railo-src&amp;dstDir=${dist.dir}/railo&amp;resDir=${src.dir}/railo-builder/resources&amp;password=${cfadmin.password}&amp;build=all" verbose="on" dest="${temp.dir}/generate.html"/>
@@ -25,7 +25,7 @@
 			<fileset dir="${war.target.dir}/WEB-INF/lib" includes="*.jar"/>
 		</path>
 		<javac-ecj srcdir="${src.dir}/railo-builder/src" destdir="${temp.dir}/rbuild/buildclasses" 
-        	compliance="1.6" classpath="${toString:railolibs};${temp.dir}/rbuild/core.rc;${src.dir}/railo-builder/lib/ecj-3.7.2.jar"
+        	compliance="1.6" classpath="${toString:railolibs};${temp.dir}/rbuild/core.rc;${src.dir}/railo-builder/resources/railo-builder/WEB-INF/railo/lib/ecj-4.2.1.jar"
         	encoding="ISO-8859-1" fork="true" maxmemory="512m" />
 		<jar destfile="${war.target.dir}/WEB-INF/railo/lib/railo-build.jar" basedir="${temp.dir}/rbuild/buildclasses" />
 	</target>
