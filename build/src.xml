@@ -8,7 +8,7 @@
 
         <src dest="@src.dir@/railo-src" type="git"
         uri="http://github.com/getrailo/railo.git"
-        user="" password="" branch="origin/4.0" />
+        user="" password="" branch="4.0" />
 
 	</project>
 	<sources>

@@ -7,16 +7,8 @@
 		<addlibs from="${src.dir}/railo-builder/lib" />
 		<mapping physical="@src.dir@/railo-builder/resources/railo-builder" virtual="/railo-builder"/>
 		<server-run>
-			<get src="http://127.0.0.1:${server.port.http}/railo-builder/build-railo.cfm?srcDir=${src.dir}/railo-src&amp;dstDir=${dist.dir}/railo&amp;resDir=${src.dir}/railo-builder/resources&amp;password=${cfadmin.password}&amp;build=all" verbose="on" dest="${temp.dir}/generate.html"/>
+			<get src="http://${server.host}:${server.port.http}/railo-builder/build-railo.cfm?srcDir=${src.dir}/railo-src&amp;dstDir=${dist.dir}/railo&amp;resDir=${src.dir}/railo-builder/resources&amp;password=${cfadmin.password}&amp;build=all" verbose="on" dest="${temp.dir}/generate.html"/>
 		</server-run>
-    	<loadfile property="build-core.railo.compile_message" srcFile="${temp.dir}/generate.html" />
-    	<echo message="${build-core.railo.compile_message}" />
-		<!-- 
-		<copy todir="${war.target.dir}/WEB-INF/railo/lib/compile">
-			<fileset dir="${src.dir}/railo-src/railo-java/libs" includes="*.jar"/>
-		</copy>
-		http://127.0.0.1:8088/railo-builder/build-railo.cfm?srcDir=/workspace/railo-builder-releng/src/railo-src&dstDir=/tmp/railo&resDir=/workspace/railo-builder-releng/src/railo-builder/resources&password=testtest&build=all
-		 -->
 	</target>
 
 	<target name="build.builder.jar">
