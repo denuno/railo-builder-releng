@@ -4,12 +4,12 @@
 
 <!--
  		<src dest="@src.dir@/railo-builder" type="git"
-		uri="https://github.com/igal-getrailo/railo-builder.git"
-		user="" password="" />
- -->
- 		<src dest="@src.dir@/railo-builder" type="git"
 		uri="https://github.com/denuno/railo-builder.git"
 		user="" password="" branch="patch-1"/>
+ -->
+ 		<src dest="@src.dir@/railo-builder" type="git"
+		uri="https://github.com/igal-getrailo/railo-builder.git"
+		user="" password="" />
 		
         <src dest="@src.dir@/railo-src" type="git"
         uri="http://github.com/getrailo/railo.git"
