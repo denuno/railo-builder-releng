@@ -2,13 +2,13 @@
 <src>
 	<project>
 
- 		<src dest="@src.dir@/railo-builder" type="git"
-		uri="https://github.com/igal-getrailo/railo-builder.git"
-		branch="1.1" user="" password="" />
-		
-        	<src dest="@src.dir@/railo-src" type="git"
-        	uri="http://github.com/getrailo/railo.git"
-        	user="" password="" branch="4.1" />
+		<src dest="@src.dir@/railo-builder" type="git"
+			uri="https://github.com/igal-getrailo/railo-builder.git" user=""
+			password="" branch="1.1" />
+
+		<src dest="@src.dir@/railo-src" type="git"
+			uri="http://github.com/getrailo/railo.git" user="" password=""
+			branch="4.1" />
 
 	</project>
 	<sources>

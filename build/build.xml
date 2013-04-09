@@ -1,5 +1,14 @@
 <project name="distro.build" default="build" basedir="./" xmlns:antcontrib="antlib:net.sf.antcontrib">
 
+	<antcontrib:if>
+		<equals arg1="${build.java.home}" arg2="$${build.java.home}" />
+		<then/>
+		<else>
+			<antcontrib:var name="java.home" value="${build.java.home}"/>
+			<antcontrib:var name="JAVA_HOME" value="${build.java.home}"/>
+		</else>
+	</antcontrib:if>
+
 	<loadproperties srcfile="build.properties"/>
 	<import file="${cfdistro.build.file}"/>
 
