@@ -3,7 +3,8 @@
 	<loadproperties srcfile="build.properties"/>
 	<import file="${cfdistro.build.file}"/>
 
-	<target name="build" depends="cfdistro.build, build.builder.jar">
+	<target name="build" depends="cfdistro.build">
+		<!-- target name="build" depends="cfdistro.build, build.builder.jar" -->
 		<addlibs from="${src.dir}/railo-builder/resources/railo-builder/WEB-INF/railo/lib/" />
 		<mapping physical="@src.dir@/railo-builder/resources/railo-builder" virtual="/railo-builder"/>
 		<server-run>
