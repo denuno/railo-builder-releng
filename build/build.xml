@@ -21,6 +21,35 @@
 		</server-run>
 	</target>
 
+	<target name="build.wartemplate">
+	    <property name="mvn.repo.dest" value="local" />
+	    <property name="mvn.repo.dest" value="remote" />
+	    <property name="mvn.repo.id" value="mvn.repo.${mvn.repo.dest}" />
+	    <property name="maven.repo.local" location="${cfdistro.basedir}/artifacts" />
+		<mvn-repo id="mvn.repo.local" url="file://${maven.repo.local}/" />
+	   	<property name="mvn.type" value="release" />
+	   	<delete dir="${dist.dir}/railo.war.template.zip" />
+	   	<delete dir="${temp.dir}/template" />
+	   	<mkdir dir="${temp.dir}/template/WEB-INF" />
+		<xmltask source="${src.dir}/railo-builder/resources/railo-war/WEB-INF/web.xml" 
+			dest="${temp.dir}/template/WEB-INF/web.xml">
+			<insert path="//*[local-name()='web-app']/*[local-name()='welcome-file-list']" position="before" 
+				file="${src.dir}/railo-builder/resources/web-servlet-definitions.xml" />
+			<remove path="//*[local-name()='web-app']/web-app/comment()[1]" />
+		</xmltask>
+		<!-- lose the orphaned comments -->
+		<replaceregexp file="${temp.dir}/template/WEB-INF/web.xml"
+               match=".!-- \{web-servlet(.*)?&gt;[\n\s]+" replace="" byline="false" />
+		<replaceregexp file="${temp.dir}/template/WEB-INF/web.xml"
+               match=".!-- default(.*)?&gt;" replace="" byline="true" />
+		<zip destfile="${dist.dir}/railo.war.template.zip" update="false">
+	        <fileset dir="${src.dir}/railo-builder/resources/railo-world/"/>
+	        <fileset dir="${temp.dir}/template/"/>
+		</zip>
+		<pom-and-deploy pomid="railo.wartemplate.pom" packaging="zip" artifact="${dist.dir}/railo.war.template.zip"
+		 groupId="org.getrailo" artifactId="railo.wartemplate" version="1.2" name="railo.wartemplate"/>
+	</target>
+
 	<target name="build.builder.jar">
 		<delete dir="${temp.dir}/rbuild" />
 		<mkdir dir="${temp.dir}/rbuild/buildclasses" />

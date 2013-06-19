@@ -4,7 +4,7 @@
 
 		<src dest="@src.dir@/railo-builder" type="git"
 			uri="https://github.com/igal-getrailo/railo-builder.git" user=""
-			password="" branch="1.1" />
+			password="" branch="1.2" />
 
 		<src dest="@src.dir@/railo-src" type="git"
 			uri="http://github.com/getrailo/railo.git" user="" password=""
